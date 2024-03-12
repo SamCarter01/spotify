@@ -1,11 +1,16 @@
 import { useEffect, useState } from 'react';
 
 export const useIsAuthenticated = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem('access_token'));
+  let inititalState: string | null = null
+  
+  if(typeof window !== 'undefined'){
+ inititalState = localStorage.getItem('access_token');
+  }
+  const [isAuthenticated, setIsAuthenticated] = useState(!!inititalState);
 
   useEffect(() => {
     const onStorage = () => {
-      setIsAuthenticated(!!localStorage.getItem('access_token'));
+      setIsAuthenticated(!!inititalState);
     };
 
     window.addEventListener('storage', onStorage);
