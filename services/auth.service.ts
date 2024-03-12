@@ -3,7 +3,10 @@ import { authService } from './api.service';
 const redirectUri = 'http://localhost:3000/callback';
 
 export const getToken = async (code: string) => {
-  const codeVerifier = localStorage.getItem('code_verifier');
+  let codeVerifier;
+  if(typeof window !== 'undefined'){
+    codeVerifier = localStorage.getItem('code_verifier');
+  }
 
   const body = {
     grant_type: 'authorization_code' || '',
@@ -16,8 +19,11 @@ export const getToken = async (code: string) => {
   try {
     const response = await authService.post('/api/token', body);
     const { access_token, refresh_token } = response;
+  if(typeof window !== 'undefined'){
+
     localStorage.setItem('access_token', access_token);
     localStorage.setItem('refresh_token', refresh_token);
+  }
     window.dispatchEvent(new Event('storage'));
   } catch (err) {
     console.log(err);
@@ -25,7 +31,11 @@ export const getToken = async (code: string) => {
 };
 
 export const refreshSpotifyToken = async () => {
-  const refreshToken = localStorage.getItem('refresh_token');
+  let refreshToken;
+  if(typeof window !== 'undefined'){
+
+   refreshToken = localStorage.getItem('refresh_token');
+  }
 
   const body = {
     grant_type: 'refresh_token',
@@ -37,8 +47,11 @@ export const refreshSpotifyToken = async () => {
     const response = await authService.post('/api/token', body);
 
     const { access_token, refresh_token } = response;
+  if(typeof window !== 'undefined'){
+
     localStorage.setItem('access_token', access_token);
     localStorage.setItem('refresh_token', refresh_token);
+  }
     window.dispatchEvent(new Event('storage'));
   } catch (err) {
     console.log(err);
