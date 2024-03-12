@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/navigation';
 
@@ -33,14 +33,16 @@ const Callback = () => {
   }, [searchParams]);
 
   return (
-    <div>
-      <Header />
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4 mt-10">
-        {Array.from({ length: 10 }, (_, index) => (
-          <TracksLoader key={`loader-${index}`} />
-        ))}
+    <Suspense>
+      <div>
+        <Header />
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4 mt-10">
+          {Array.from({ length: 10 }, (_, index) => (
+            <TracksLoader key={`loader-${index}`} />
+          ))}
+        </div>
       </div>
-    </div>
+    </Suspense>
   );
 };
 
