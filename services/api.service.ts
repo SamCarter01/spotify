@@ -20,8 +20,12 @@ const apiService = async ({
   body = null,
   endpoint = ''
 }: ApiServiceOptions): Promise<any> => {
-  const token = localStorage.getItem('access_token');
-  const refreshToken = localStorage.getItem('refresh_token');
+  let token, refreshToken;
+  if(typeof window !== 'undefined'){
+     token = localStorage.getItem('access_token');
+     refreshToken = localStorage.getItem('refresh_token');
+  }
+
 
   const defaultOptions = {
     method,
