@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { Suspense } from 'react'
 import { Figtree } from 'next/font/google';
 
 import { Sidebar } from '@/components/Sidebar/Sidebar';
@@ -20,9 +21,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={font.className}>
+         <Suspense>
         <LibraryProvider>
           <Sidebar>{children}</Sidebar>
         </LibraryProvider>
+         </Suspense>
       </body>
     </html>
   );
