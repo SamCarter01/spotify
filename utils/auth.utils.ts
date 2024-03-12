@@ -26,8 +26,9 @@ export const redirectToSpotifyLogin = async () => {
   const state = generateRandomString(16);
   const scope =
     'user-read-private user-read-email streaming user-read-playback-state user-modify-playback-state user-library-read user-library-modify';
-
-  localStorage.setItem('code_verifier', codeVerifier);
+    if(typeof window !== 'undefined'){
+      localStorage.setItem('code_verifier', codeVerifier);
+    }
 
   const args = new URLSearchParams({
     response_type: 'code',
@@ -43,8 +44,11 @@ export const redirectToSpotifyLogin = async () => {
 };
 
 export const handleLogout = () => {
-  localStorage.removeItem('access_token');
-  localStorage.removeItem('refresh_token');
-  localStorage.removeItem('code_verifier');
+  if(typeof window !== 'undefined'){
+
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('refresh_token');
+    localStorage.removeItem('code_verifier');
+  }
   window.dispatchEvent(new Event('storage'));
 };
